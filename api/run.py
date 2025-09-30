@@ -1,7 +1,7 @@
+import os
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from sentientresearchagent import SentientAgent
-import os
 
 app = FastAPI()
 
