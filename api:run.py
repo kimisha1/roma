@@ -1,0 +1,23 @@
+import os
+import asyncio
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from sentientresearchagent import SentientAgent
+
+app = FastAPI()
+
+@app.post("/")
+async def run(request: Request):
+	# Vercel mounts this file at /api/run, so this route is "/"
+	data = await request.json()
+	prompt = (data.get("prompt") or "").strip()
+	if not prompt:
+		return JSONResponse({"error": "Missing 'prompt'."}, status_code=400)
+
+	# Ensure your provider key (e.g., OPENAI_API_KEY) is set in Vercel Project Settings -> Environment Variables
+	if not os.getenv("OPENAI_API_KEY"):
+		return JSONResponse({"error": "OPENAI_API_KEY not set."}, status_code=500)
+
+	agent = SentientAgent.create()
+	result = await agent.run(prompt)
+	return {"result": result}

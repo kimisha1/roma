@@ -1,0 +1,3 @@
+cd /path/to/your/repo
+printf "fastapi>=0.111.0\ngit+https://github.com/sentient-agi/ROMA.git\n" > requirements.txt
+git add requirements.txt && git commit -m "Add requirements for ROMA demo" && git push
